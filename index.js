@@ -7,4 +7,6 @@ const PORT = 5000;
 
 app.use(bodyParser.json());
 app.use('/transactions', transactionsRoutes);
-app.listen(PORT, () => console.log(`Server is running on port: http://localhost:${PORT}`))
+
+app.listen(process.env.PORT || 5000, () => 'server is running...')
+
