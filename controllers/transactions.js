@@ -85,7 +85,7 @@ export const spendPoints = (req, res) => {
                balance,
             }
             // we need to set to 0 if the balance is negative, so that we don't need to consider the balance next time when we spend points
-            transactions[idx].balance = tranToProcess.balance < 0 ? 0 : balance
+            transactions[idx].balance = balance < 0 ? 0 : balance
          }else{
             const balance = -(tranToProcess.balance)
 
