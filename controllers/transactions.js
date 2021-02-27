@@ -66,7 +66,7 @@ export const spendPoints = (req, res) => {
    const sortedTransactions = curTransactions.map(t => ({
       ...t,
       timestamp: new Date(t.timestamp).getTime()
-   })).sort((a, b) => a.timestamp - b.timestamp);
+   })).filter(t => t !== 0).sort((a, b) => a.timestamp - b.timestamp);
 
    let pointsToSpend = points;
    let i = 0;
@@ -77,35 +77,22 @@ export const spendPoints = (req, res) => {
       const idx = transactions.findIndex(obj  => obj.id === tranToProcess.id);
 
       if(tranToProcess.balance < pointsToSpend){
-         if(hashMap.hasOwnProperty(tranToProcess.userId)){
-            const balance = hashMap[tranToProcess.userId].balance - (tranToProcess.balance)
-
-            hashMap[tranToProcess.userId] = {
-               payer: tranToProcess.payer,
-               balance,
-            }
-            // we need to set to 0 if the balance is negative, so that we don't need to consider the balance next time when we spend points
-            transactions[idx].balance = balance < 0 ? 0 : balance
-         }else{
-            const balance = -(tranToProcess.balance)
-
-            hashMap[tranToProcess.userId] = {
-               payer: tranToProcess.payer,
-               balance
-            }
-
-            transactions[idx].balance = balance < 0 ? 0 : transactions[idx].balance + balance
+         const balance = hashMap[tranToProcess.userId] ? hashMap[tranToProcess.userId].balance - (tranToProcess.balance) : -(tranToProcess.balance)
+         hashMap[tranToProcess.userId] = {
+            payer: tranToProcess.payer,
+            balance
          }
+         // we need to set to 0 if the balance is negative, so that we don't need to consider the balance next time when we spend points
+         transactions[idx].balance = balance < 0 ? 0 : balance
          pointsToSpend -= tranToProcess.balance;
       }else{
-         const balance = -pointsToSpend;
+         const balance = hashMap[tranToProcess.userId] ?  hashMap[tranToProcess.userId].balance - pointsToSpend : -pointsToSpend ;
          hashMap[tranToProcess.userId] = {
             payer: tranToProcess.payer,
             balance
          }
 
-         transactions[idx].balance = transactions[idx].balance + balance;
-
+         transactions[idx].balance = transactions[idx].balance - pointsToSpend;
          pointsToSpend = 0;
       }
       i++;
