@@ -20,6 +20,8 @@
 1. Download postman to call API. https://www.postman.com/downloads/
 
 2. Select HTTP methods and type correct path. For example to call `/transactions`, type https://fetch-points.herokuapp.com/transactions with GET method 
+    
+    ![Screen Shot 2021-02-26 at 9 54 04 PM](https://user-images.githubusercontent.com/28660183/109374755-388de300-787d-11eb-8c0d-6610b3741e4c.png)
 
 
 
