@@ -1,5 +1,5 @@
 
-import {v4 as uuidv4 } from 'uuid';
+const uuid =  require('uuid');
 
 // in memory DB
 /*
@@ -14,12 +14,12 @@ const transactions = []
 // global variable to track total points
 let totalPoints = 0;
 
-export const addTransaction = (req, res) => {
+const addTransaction = (req, res) => {
    const {payer, points} = req.body;
    const existingUser = transactions.find(t => t.payer === payer);
    const transactionToSave = {
-      id: uuidv4(),
-      userId: existingUser ? existingUser.userId : uuidv4(),
+      id: uuid.v4(),
+      userId: existingUser ? existingUser.userId : uuid.v4(),
       balance: points,
       ...req.body
    };
@@ -29,11 +29,11 @@ export const addTransaction = (req, res) => {
    res.send(true)
 }
 
-export const getAllTransactions = (_req, res) => {
+const getAllTransactions = (_req, res) => {
    res.send(transactions)
 }
 
-export const balanceByPayer = (_req, res) => {
+const balanceByPayer = (_req, res) => {
    const balanceMap = {};
    transactions.map(t => {
       if(balanceMap.hasOwnProperty(t.userId)){
@@ -55,7 +55,7 @@ export const balanceByPayer = (_req, res) => {
    })))
 }
 
-export const spendPoints = (req, res) => {
+const spendPoints = (req, res) => {
    const { points } = req.body;
    if(points > totalPoints){
       throw new Error('not enough points');
@@ -104,4 +104,8 @@ export const spendPoints = (req, res) => {
       points: hashMap[key].balance
    }));
    res.send(transformHashMapToResult);
+}
+
+module.exports = {
+   addTransaction, spendPoints, balanceByPayer, getAllTransactions
 }

@@ -1,15 +1,15 @@
-import express from 'express';
-import { addTransaction, getAllTransactions, spendPoints, balanceByPayer } from '../controllers/transactions.js';
+const express = require('express');
 
+const {addTransaction, getAllTransactions, spendPoints, balanceByPayer} = require('../controllers/transactions')
 const router = express.Router();
 
 // get request
-router.get('/', getAllTransactions)
-router.get('/balance', balanceByPayer)
+router.get('/', (res, req) => getAllTransactions(res, req))
+router.get('/balance', (res, req) => balanceByPayer(res, req))
 
 // post request
-router.post('/', addTransaction)
-router.post('/spend', spendPoints)
+router.post('/', (res, req) => addTransaction(res, req))
+router.post('/spend', (res, req) => spendPoints(res, req))
 
-export default router;
+exports.router = router;
 
