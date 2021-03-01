@@ -1,4 +1,3 @@
-const { v4: uuidv4 } = require('uuid')
 // in memory D
 /*
    id: pk,
@@ -9,6 +8,8 @@ const { v4: uuidv4 } = require('uuid')
 */
 const transactions = []
 
+const randomID = () =>  '_' + Math.random().toString(36).substr(2, 9);
+
 // global variable to track total points
 let totalPoints = 0;
 
@@ -16,8 +17,8 @@ const addTransaction = (req, res) => {
    const {payer, points} = req.body;
    const existingUser = transactions.find(t => t.payer === payer);
    const transactionToSave = {
-      id: uuidv4(),
-      userId: existingUser ? existingUser.userId : uuidv4(),
+      id: randomID(),
+      userId: existingUser ? existingUser.userId : randomID(),
       balance: points,
       ...req.body
    };
