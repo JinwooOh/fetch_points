@@ -32,5 +32,5 @@
 
 3. Run server by typing `yarn dev-start`
 
-4. And follow options 1's steps to call API 
+4. And follow options 1's steps to call API (URL should be "http://localhost:5000/transactions")
 
