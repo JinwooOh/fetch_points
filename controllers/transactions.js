@@ -1,7 +1,5 @@
-
-const uuid =  require('uuid');
-
-// in memory DB
+const { v4: uuidv4 } = require('uuid')
+// in memory D
 /*
    id: pk,
    userId: payerId,
@@ -18,8 +16,8 @@ const addTransaction = (req, res) => {
    const {payer, points} = req.body;
    const existingUser = transactions.find(t => t.payer === payer);
    const transactionToSave = {
-      id: uuid.v4(),
-      userId: existingUser ? existingUser.userId : uuid.v4(),
+      id: uuidv4(),
+      userId: existingUser ? existingUser.userId : uuidv4(),
       balance: points,
       ...req.body
    };
